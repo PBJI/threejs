@@ -15,15 +15,16 @@ camera.position.x = -5;
 camera.rotateX(0.6);
 camera.rotateY(-0.5);
 camera.rotateZ(-0.5);
-// A function that renders a car like shape made by using and cubes just spread out
 
+
+// A function that renders a car like shape made by using cubes
 function renderCar() {
   const car = new THREE.Group();
   const parts = [];
 
   const center = new THREE.Vector3();
-  const tempVec = new THREE.Vector3();
 
+  // Car base cubes
   for (let i = 0; i < 3 * 5; i++) {
     const geometry = new THREE.BoxGeometry(1, 1, 1);
     const material = new THREE.PointsMaterial({ color: 0x00ffff });
@@ -33,6 +34,7 @@ function renderCar() {
     car.add(cube);
   }
 
+  // Cars tires cubes
   const frontTiresDistance = 1;
   const backTiresDistance = 1;
   for (let i = 0; i < 3 * 5; i++) {
@@ -47,6 +49,7 @@ function renderCar() {
     }
   }
 
+  // Cars top cubes
   for (let i = 0; i < 3 * 5; i++) {
     if (!(Math.floor(i / 3) == frontTiresDistance - 1 || 5 - Math.floor(i / 3) == backTiresDistance)) {
       const geometry = new THREE.BoxGeometry(1, 1, 1);
@@ -60,7 +63,7 @@ function renderCar() {
   }
 
   const box = new THREE.Box3().setFromObject(car);
-  box.getCenter(center);
+  box.getCenter(center); // Gets the center of the bounding box and saves it to center object
 
   car.children.forEach((mesh) => {
     const original = mesh.position.clone();
@@ -73,24 +76,6 @@ function renderCar() {
 }
 
 let { car, parts } = renderCar();
-let exploding = false;
-let explodeStartTime = 0;
-
-function triggerExplosion() {
-  exploding = true;
-  explodeStartTime = performance.now();
-}
-
-function resetCarParts() {
-  parts.forEach((p) => {
-    p.mesh.position.copy(p.original);
-  });
-  exploding = false;
-}
-
-let prevTime = performance.now();
-let phaseStartTime = prevTime;
-let phase = 'rest';
 
 scene.add(car);
 
@@ -105,6 +90,7 @@ window.addEventListener('wheel', (e) => {
 function animate() {
   requestAnimationFrame(animate);
   parts.forEach((p) => {
+    // The larger the distance between the center of the car and part, the more speed by which it will travel away.
     const moveAmount = p.distance * scrollOffset * 2;
     const pos = p.original.clone().add(p.direction.clone().multiplyScalar(moveAmount));
     p.mesh.position.copy(pos);
