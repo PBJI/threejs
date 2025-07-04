@@ -38,7 +38,7 @@ function renderCar() {
   const frontTiresDistance = 1;
   const backTiresDistance = 1;
   for (let i = 0; i < 3 * 5; i++) {
-    if ((i % 3 == 1 || i % 3 == 0) && (Math.floor(i / 3) == frontTiresDistance || 4 - Math.floor(i / 3) == backTiresDistance)) {
+    if ((i % 3 == 2 || i % 3 == 0) && (Math.floor(i / 3) == frontTiresDistance || 4 - Math.floor(i / 3) == backTiresDistance)) {
       const geometry = new THREE.BoxGeometry(1, 1, 1);
       const material = new THREE.PointsMaterial({ color: 0xff00ff });
       const cube = new THREE.Mesh(geometry, material);
@@ -95,6 +95,10 @@ function animate() {
     const pos = p.original.clone().add(p.direction.clone().multiplyScalar(moveAmount));
     p.mesh.position.copy(pos);
   });
+
+  // car.rotation.x += 0.01
+  car.rotation.z += 0.01
+  // car.rotation.y += 0.01
 
   renderer.render(scene, camera);
 }
