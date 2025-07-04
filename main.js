@@ -1,4 +1,5 @@
-import * as THREE from "three";
+// import * as THREE from "three";
+import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js'
 
 // So basically we are setting up a scene, a camera and a canvas (renderer) and an object
 const scene = new THREE.Scene();
