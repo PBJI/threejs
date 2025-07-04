@@ -94,30 +94,21 @@ let phase = 'rest';
 
 scene.add(car);
 
+let scrollOffset = 0;
+
+window.addEventListener('wheel', (e) => {
+  scrollOffset += e.deltaY * 0.001;
+  scrollOffset = Math.max(0, Math.min(scrollOffset, 1));
+});
+
+
 function animate() {
   requestAnimationFrame(animate);
-  const currentTime = performance.now();
-  prevTime = currentTime;
-  const t = (currentTime - phaseStartTime) / 1000;
-
-  if (phase === 'rest') {
-    if (t >= 1) {
-      phase = 'explode';
-      phaseStartTime = currentTime;
-    }
-  } else if (phase === 'explode') {
-    if (t <= 1) {
-      parts.forEach((p) => {
-        const moveAmount = p.distance * t * 2;
-        const pos = p.original.clone().add(p.direction.clone().multiplyScalar(moveAmount));
-        p.mesh.position.copy(pos);
-      });
-    } else {
-      resetCarParts();
-      phase = 'rest';
-      phaseStartTime = currentTime;
-    }
-  }
+  parts.forEach((p) => {
+    const moveAmount = p.distance * scrollOffset * 2;
+    const pos = p.original.clone().add(p.direction.clone().multiplyScalar(moveAmount));
+    p.mesh.position.copy(pos);
+  });
 
   renderer.render(scene, camera);
 }
