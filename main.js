@@ -18,14 +18,17 @@ import { GLTFLoader } from "https://esm.sh/three@0.160.0/examples/jsm/loaders/GL
 import { OrbitControls } from "https://esm.sh/three@0.160.0/examples/jsm/controls/OrbitControls.js";
 
 let scrollOffset =0;
+let model
+let aspectRatio=window.innerWidth/window.innerHeight
 
 document.body.appendChild(loaderOverlay);
 //Create scene, camera, renderer
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0xffffff)
 
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.z = 5;
+// const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1,100);
+const camera = new THREE.OrthographicCamera(-5*aspectRatio,5*aspectRatio,5,-5,0.1,100);
+camera.position.z = 10;
 
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -45,7 +48,7 @@ const partsOfCar = [];
 //Load the car model
 const loader = new GLTFLoader();
 loader.load('./car.glb', (gltf) => {
-  const model = gltf.scene;
+  model = gltf.scene;
   model.scale.set(1, 1, 1);
 
   //Setting center of the model
@@ -54,10 +57,12 @@ loader.load('./car.glb', (gltf) => {
 	model.position.sub(center)
   // Traverse all child objects in the model and saving details 
   model.traverse((child) => {
+  {
       const original = child.position.clone();                 
       const direction = original.clone().sub(center).normalize();
       const distance = original.distanceTo(center);             
       partsOfCar.push({ mesh: child, original, direction, distance });
+	}
   });
 
   // Add the model to the scene
@@ -108,10 +113,11 @@ console.log(gltf.scene)
 // );
 
 //event listener
-window.addEventListener("wheel", (e)=>{
+window.addEventListener("wheel", (e) => {
   e.preventDefault();
-	scrollOffset=scrollOffset+e.deltaY*0.001
-},{passive:false})
+  scrollOffset += e.deltaY * 0.0001;
+  scrollOffset = Math.max(-1, Math.min(scrollOffset, 1));
+}, { passive: false });
 
 window.addEventListener("touchstart", (e) => {
   startY = e.touches[0].clientY;
@@ -130,19 +136,23 @@ const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 controls.dampingFactor = 0.05;
 controls.enablePan = false;
-controls.enableZoom=false
+controls.enableZoom=false;
+
+
+const clock = new THREE.Clock()
 
 //Animation loop
 function animate() {
   requestAnimationFrame(animate);
 
-	//animate based on scroll
+	// animate based on scroll
 	partsOfCar.forEach((part)=>{
-    const moveAmount=part.distance*scrollOffset*0.2
+	   const moveAmount=part.distance*scrollOffset*4
 		const pos = part.original.clone().add(part.direction.clone().multiplyScalar(moveAmount))
 		part.mesh.position.copy(pos)
 	})
-
+	
+   
   controls.update();
   renderer.render(scene, camera);
 }
