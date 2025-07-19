@@ -23,8 +23,8 @@ import { TextGeometry } from "https://esm.run/three@0.160.0/examples/jsm/geometr
 import helvetica from "https://esm.run/three@0.160.0/examples/fonts/helvetiker_regular.typeface.json";
 // So basically we are setting up a scene, a camera and a canvas (renderer) and an object
 const scene = new THREE.Scene();
-
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+let aspectRatio = window.innerWidth / window.innerHeight;
+const camera = new THREE.OrthographicCamera(-5 * aspectRatio, 5 * aspectRatio, 5, -5, 0.1, 100);
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
@@ -60,7 +60,7 @@ audioLoader.load("./engine.mp3", function (buffer) {
   carSound.setLoop(true);
   carSound.setRefDistance(10);
   carSound.setVolume(1);
-  carSound.set
+  carSound.set;
 });
 // loading a pre-modeled car and setting the camera to show it as close as possible at appropriate angle
 const loader = new GLTFLoader();
@@ -155,6 +155,7 @@ loader.load(
     camera.rotateZ(0.4);
 
     model.add(carSound);
+    model.rotateY(-0.1)
   },
   undefined,
   (error) => {
@@ -175,7 +176,7 @@ window.addEventListener(
   (e) => {
     e.preventDefault();
     scrollOffset += e.deltaY * 0.001;
-    scrollOffset = Math.max(0, Math.min(scrollOffset, 1));
+    // scrollOffset = Math.max(0, Math.min(scrollOffset, 1));
   },
   { passive: false }
 );
@@ -193,7 +194,7 @@ window.addEventListener(
   (e) => {
     const deltaY = e.touches[0].clientY - startY;
     scrollOffset -= deltaY * 0.003;
-    scrollOffset = Math.max(0, Math.min(scrollOffset, 1));
+    // scrollOffset = Math.max(0, Math.min(scrollOffset, 1));
     startY = e.touches[0].clientY;
   },
   { passive: false }
@@ -212,10 +213,10 @@ function animate() {
     const pos = p.original.clone().add(p.direction.clone().multiplyScalar(moveAmount));
     p.mesh.position.lerp(pos, 0.1);
     p.textMesh.position.lerp(pos, 0.1);
-    carSound.setPlaybackRate(1-scrollOffset/2)
+    carSound.setPlaybackRate(Math.abs(1 - scrollOffset / 2));
   });
-  roadTexture.offset.y -= 0.1 * (1-scrollOffset);
-  roadTexture.offset.x = roadTexture.offset.x - 0.01 * (1-scrollOffset)
+  roadTexture.offset.y -= 0.1 * Math.abs(1 - scrollOffset);
+  roadTexture.offset.x = roadTexture.offset.x - 0.01 * Math.abs(1 - scrollOffset);
 
   controls.update();
   renderer.render(scene, camera);
