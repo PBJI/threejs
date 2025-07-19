@@ -1,0 +1,15 @@
+export const loaderOverlay = document.createElement("div");
+loaderOverlay.style.position = "fixed";
+loaderOverlay.style.top = "0";
+loaderOverlay.style.left = "0";
+loaderOverlay.style.width = "100vw";
+loaderOverlay.style.height = "100vh";
+loaderOverlay.style.background = "#ffffff";
+loaderOverlay.style.display = "flex";
+loaderOverlay.style.alignItems = "center";
+loaderOverlay.style.justifyContent = "center";
+loaderOverlay.style.fontSize = "2rem";
+loaderOverlay.style.fontFamily = "sans-serif";
+loaderOverlay.style.zIndex = "999";
+loaderOverlay.innerText = "Loading...";
+document.body.appendChild(loaderOverlay);
