@@ -3,11 +3,13 @@ import { scene } from './src/core/scene.js'
 import { camera } from './src/core/camera.js'
 import { controls } from './src/core/controls.js'
 import { addLights } from './src/core/lighting.js'
-import { loadModel } from './src/loaders/modelLoader.js'
+import { loadCarModel } from './src/loaders/carModelLoader.js'
 import { setupEvents } from './src/utils/events.js'
 import { animate } from './src/core/animate.js'
+import { loadGuitarModel } from './src/loaders/guitarModeLoader.js'
 
 addLights(scene)
-loadModel(scene, camera)
+loadCarModel(scene, camera)
+loadGuitarModel(scene, camera)
 setupEvents()
 animate()

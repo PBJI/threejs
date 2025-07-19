@@ -10,13 +10,20 @@ export function createLabels(model, font, scene, center) {
     if (direction.y < 0) {
       direction.y = 0;
     }
-    const geometry = new TextGeometry(mesh.name || "Unnamed", { font, size: 0.1, steps: 0, depth: 0, curveSegments: 12, bevelEnabled: false });
-    const material = new THREE.MeshToonMaterial({ color: 0x000000 });
-    const textMesh = new THREE.Mesh(geometry, material);
-    const offset = direction.clone().multiplyScalar(0.5);
-    textMesh.position.copy(mesh.position.clone().add(offset));
-    scene.add(textMesh);
-    parts.push({ mesh, original, direction, distance, textMesh, name: mesh.name });
+    // const geometry = new TextGeometry(mesh.name || "Unnamed", { font, size: 0.1, steps: 0, depth: 0, curveSegments: 12, bevelEnabled: false });
+    // const material = new THREE.MeshToonMaterial({ color: 0x000000 });
+    // const textMesh = new THREE.Mesh(geometry, material);
+    // const offset = direction.clone().multiplyScalar(0.5);
+    // textMesh.position.copy(mesh.position.clone().add(offset));
+    // scene.add(textMesh);
+    parts.push({
+      mesh,
+      original,
+      direction,
+      distance,
+      // textMesh, 
+      name: mesh.name
+    });
   });
   return parts;
 }

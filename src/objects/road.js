@@ -28,7 +28,7 @@ export function createRoad(box, size, scene) {
   const material = new THREE.MeshStandardMaterial({ map: texture, side: THREE.DoubleSide });
   const road = new THREE.Mesh(geometry, material);
   road.rotation.x = -Math.PI / 2;
-  road.position.y = box.min.y - 0.90;
+  road.position.y = box.min.y + 0.1;
   scene.add(road);
   window.__ROAD_TEXTURE__ = texture;
 }
