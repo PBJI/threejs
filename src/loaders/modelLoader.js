@@ -1,10 +1,10 @@
 import { GLTFLoader } from "https://esm.run/three@0.160.0/examples/jsm/loaders/GLTFLoader";
-import { createRoad } from "../objects/road";
-import { createLabels } from "../objects/labels";
-import { loadFont } from "./fontLoader";
-import { loadAudio } from "./audioLoader";
+import { createRoad } from "../objects/road.js";
+import { createLabels } from "../objects/labels.js";
+import { loadFont } from "./fontLoader.js";
+import { loadAudio } from "./audioLoader.js";
 import * as THREE from "https://esm.run/three@0.160.0/build/three.module.js";
-import { loaderOverlay } from "../dom/loading";
+import { loaderOverlay } from "../dom/loading.js";
 
 export async function loadModel(scene, camera) {
   const loader = new GLTFLoader();

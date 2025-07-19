@@ -1,7 +1,7 @@
-import { renderer } from "./renderer";
-import { scene } from "./scene";
-import { camera } from "./camera";
-import { controls } from "./controls";
+import { renderer } from "./renderer.js";
+import { scene } from "./scene.js";
+import { camera } from "./camera.js";
+import { controls } from "./controls.js";
 
 export function animate() {
   requestAnimationFrame(animate);
