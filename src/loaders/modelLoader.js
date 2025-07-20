@@ -9,7 +9,7 @@ import { loaderOverlay } from "../dom/loading.js";
 export async function loadModel(scene, camera) {
   const loader = new GLTFLoader();
   loader.load(
-    "./car.glb",
+    "./models/car.glb",
     async (gltf) => {
       const model = gltf.scene;
       const box = new THREE.Box3().setFromObject(model);
@@ -32,6 +32,7 @@ export async function loadModel(scene, camera) {
       camera.position.set(5, 2, camZ);
       window.__CAR_PARTS__ = parts;
       window.__CAR_SOUND__ = sound;
+      window.__CAR_MODEL__ = model;
       document.body.removeChild(loaderOverlay);
     },
     (xhr) => {

@@ -5,7 +5,7 @@ export function loadAudio(model) {
     const listener = new THREE.AudioListener()
     const sound = new THREE.PositionalAudio(listener)
     const audioLoader = new THREE.AudioLoader()
-    audioLoader.load('./engine.mp3', (buffer) => {
+    audioLoader.load('./sounds/engine.mp3', (buffer) => {
       sound.setBuffer(buffer)
       sound.setLoop(true)
       sound.setRefDistance(10)
