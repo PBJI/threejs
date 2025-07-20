@@ -1,7 +1,7 @@
 import * as THREE from "https://esm.run/three@0.160.0/build/three.module.js";
-import { camera } from "../core/camera";
-import { scene } from "../core/scene";
-import { controls } from "../core/controls";
+import { camera } from "../core/camera.js";
+import { scene } from "../core/scene.js";
+import { controls } from "../core/controls.js";
 
 export function setupEvents() {
   window.__SCROLL__ = 0;
