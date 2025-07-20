@@ -21,6 +21,7 @@ export function animate() {
   if (shouldDisassemble) {
     controls.enableZoom = false;
     controls.enablePan = false;
+    controls.dampingFactor = 0.000001;
     parts.forEach((p) => {
       if (!isDescendantOf(p.mesh, carRoot)) return;
 
@@ -33,6 +34,7 @@ export function animate() {
   } else {
     controls.enableZoom = true;
     controls.enablePan = true;
+    controls.dampingFactor = 0.2;
   }
   if (roadTexture) {
     roadTexture.offset.y -= 0.1 * (1 - scrollOffset);
